@@ -37,10 +37,11 @@ class LocalBibleDB {
 
   async searchVerses(query: string): Promise<BibleVerse[]> {
     const results: BibleVerse[] = [];
-    const searchTerms = query.toLowerCase().trim().split(/\s+/);
+    const normalizedQuery = query.toLowerCase().trim();
+    const searchTerms = normalizedQuery.split(/\s+/);
     
     // Check if the query matches a book chapter pattern (e.g., "peter 3")
-    const chapterMatch = query.match(/^(\d?\s*\w+)\s+(\d+)$/i);
+    const chapterMatch = normalizedQuery.match(/^(\d?\s*\w+)\s+(\d+)$/i);
     if (chapterMatch) {
       const [, bookPart, chapterStr] = chapterMatch;
       const chapter = parseInt(chapterStr, 10);
@@ -61,7 +62,7 @@ class LocalBibleDB {
     
     // Check if the query matches a book name
     const matchingBooks = VALID_BOOKS.filter(book => 
-      book.toLowerCase().includes(query.toLowerCase())
+      book.toLowerCase().includes(normalizedQuery)
     );
     
     if (matchingBooks.length > 0) {
@@ -77,11 +78,53 @@ class LocalBibleDB {
     const bookPromises = VALID_BOOKS.map(book => this.getVerses(book));
     const allVerses = (await Promise.all(bookPromises)).flat();
     
-    // More flexible text search that matches any of the terms
-    return allVerses.filter(verse => {
-      const verseText = verse.text.toLowerCase();
-      return searchTerms.some(term => verseText.includes(term));
-    }).slice(0, 100); // Limit results to prevent overwhelming the UI
+    // Enhanced text search with multiple strategies
+    return allVerses
+      .map(verse => {
+        const verseText = verse.text.toLowerCase();
+        const score = this.calculateSearchScore(verseText, normalizedQuery, searchTerms);
+        return { verse, score };
+      })
+      .filter(({ score }) => score > 0)
+      .sort((a, b) => b.score - a.score)
+      .map(({ verse }) => verse)
+      .slice(0, 100); // Limit results to prevent overwhelming the UI
+  }
+
+  private calculateSearchScore(verseText: string, fullQuery: string, terms: string[]): number {
+    let score = 0;
+    
+    // Exact match of the complete query (highest priority)
+    if (verseText.includes(fullQuery)) {
+      score += 100;
+    }
+
+    // Consecutive terms matching (high priority)
+    let consecutiveMatches = 0;
+    for (let i = 0; i < terms.length - 1; i++) {
+      const term = terms[i];
+      const nextTerm = terms[i + 1];
+      if (verseText.includes(`${term} ${nextTerm}`)) {
+        consecutiveMatches++;
+      }
+    }
+    score += consecutiveMatches * 20;
+
+    // Individual term matching (medium priority)
+    const matchingTerms = terms.filter(term => verseText.includes(term));
+    score += matchingTerms.length * 10;
+
+    // Partial word matching (lower priority)
+    const partialMatches = terms.filter(term => 
+      term.length > 3 && // Only consider terms longer than 3 characters
+      !matchingTerms.includes(term) && // Don't double count exact matches
+      verseText.split(/\s+/).some(word => 
+        word.includes(term) || term.includes(word)
+      )
+    );
+    score += partialMatches.length * 5;
+
+    return score;
   }
 }
 
