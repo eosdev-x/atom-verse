@@ -42,7 +42,7 @@ export function Footer() {
                 {currentYear} Atom Verse. All rights reserved.
               </p>
               <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center">
-                Made with <Heart className="w-4 h-4 text-red-500 mx-1" /> using React
+                Made with <Heart className="w-4 h-4 text-red-500 mx-1" /> by&nbsp;<a href="https://eosdev.org" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300">eosdev</a>
               </p>
             </div>
           </div>
