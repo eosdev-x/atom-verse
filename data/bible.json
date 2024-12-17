@@ -1,0 +1,34 @@
+{
+  "verses": [
+    {
+      "book": "John",
+      "chapter": 3,
+      "verse": 16,
+      "text": "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life."
+    },
+    {
+      "book": "Genesis",
+      "chapter": 1,
+      "verse": 1,
+      "text": "In the beginning God created the heaven and the earth."
+    },
+    {
+      "book": "Psalms",
+      "chapter": 23,
+      "verse": 1,
+      "text": "The Lord is my shepherd; I shall not want."
+    },
+    {
+      "book": "Matthew",
+      "chapter": 5,
+      "verse": 16,
+      "text": "Let your light so shine before men, that they may see your good works, and glorify your Father which is in heaven."
+    },
+    {
+      "book": "Philippians",
+      "chapter": 4,
+      "verse": 13,
+      "text": "I can do all things through Christ which strengtheneth me."
+    }
+  ]
+}
