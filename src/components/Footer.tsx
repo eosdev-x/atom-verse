@@ -23,7 +23,7 @@ export function Footer() {
           <div className="mb-8">
             <div className="flex justify-center space-x-4">
               <a 
-                href="https://github.com/yourusername/atom-verse"
+                href="https://github.com/eosdev-x/atom-verse"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-500 
