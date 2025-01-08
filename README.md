@@ -16,7 +16,7 @@ git clone https://github.com/eosdev-x/atom-verse.git
 ```
 # Navigate to project directory
 ```bash
-cd atombin
+cd atom-verse
 ```
 # Run project
 ```bash
