@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Keyboard, X } from 'lucide-react';
 
 interface Shortcut {
@@ -20,16 +21,20 @@ export function KeyboardHints(): JSX.Element {
 
   return (
     <div className="relative inline-block">
-      <button
+      <motion.button
         onClick={() => setIsOpen(!isOpen)}
         className="inline-flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-500
-                   hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200"
+                   hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200
+                   rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
+                   focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900"
         aria-label="Keyboard shortcuts"
         title="Keyboard shortcuts"
+        whileTap={{ scale: 0.96 }}
+        transition={{ duration: 0.1 }}
       >
         <Keyboard className="w-3.5 h-3.5" />
         <span className="hidden sm:inline">Shortcuts</span>
-      </button>
+      </motion.button>
 
       {isOpen && (
         <div
@@ -43,13 +48,17 @@ export function KeyboardHints(): JSX.Element {
             <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
               Keyboard Shortcuts
             </span>
-            <button
+            <motion.button
               onClick={() => setIsOpen(false)}
-              className="p-0.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="p-0.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700
+                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
+                         focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900"
               aria-label="Close shortcuts"
+              whileTap={{ scale: 0.96 }}
+              transition={{ duration: 0.1 }}
             >
               <X className="w-3.5 h-3.5 text-gray-400" />
-            </button>
+            </motion.button>
           </div>
           <div className="space-y-1.5">
             {shortcuts.map((shortcut) => (

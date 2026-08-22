@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Bookmark, Share2, BookmarkCheck, Copy } from 'lucide-react';
 import { useBookmarkStore } from '../store/bookmarkStore';
 import { bookToSlug } from '../utils/db';
+import { easing } from '../utils/animations';
 import toast from 'react-hot-toast';
 
 interface VerseCardProps {
@@ -12,11 +13,12 @@ interface VerseCardProps {
   verse: number;
   text: string;
   isFocused?: boolean;
+  useSerif?: boolean;
   onBookmarkToggle?: () => void;
 }
 
 export const VerseCard = forwardRef<HTMLDivElement, VerseCardProps>(
-  function VerseCard({ book, chapter, verse, text, isFocused, onBookmarkToggle }, ref) {
+  function VerseCard({ book, chapter, verse, text, isFocused, useSerif = false, onBookmarkToggle }, ref) {
     const reference = `${book} ${chapter}:${verse}`;
     const { bookmarks, addBookmark, removeBookmark } = useBookmarkStore();
     const isBookmarked = bookmarks.some((b) => b.reference === reference);
@@ -54,7 +56,7 @@ export const VerseCard = forwardRef<HTMLDivElement, VerseCardProps>(
             (t) => (
               <div className="flex items-center gap-3">
                 <span>Bookmark removed</span>
-                <button
+                <motion.button
                   onClick={() => {
                     useBookmarkStore.getState().undoRemove(bookmark.id);
                     toast.dismiss(t.id);
@@ -63,9 +65,11 @@ export const VerseCard = forwardRef<HTMLDivElement, VerseCardProps>(
                   className="px-2 py-1 text-xs font-medium rounded
                              bg-blue-500 text-white hover:bg-blue-600
                              transition-colors duration-200"
+                  whileTap={{ scale: 0.96 }}
+                  transition={{ duration: 0.1 }}
                 >
                   Undo
-                </button>
+                </motion.button>
               </div>
             ),
             { duration: 5000 },
@@ -77,7 +81,7 @@ export const VerseCard = forwardRef<HTMLDivElement, VerseCardProps>(
           (t) => (
             <div className="flex items-center gap-3">
               <span>Verse bookmarked</span>
-              <button
+              <motion.button
                 onClick={() => {
                   toast.dismiss(t.id);
                 }}
@@ -85,9 +89,11 @@ export const VerseCard = forwardRef<HTMLDivElement, VerseCardProps>(
                            bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300
                            hover:bg-gray-300 dark:hover:bg-gray-600
                            transition-colors duration-200"
+                whileTap={{ scale: 0.96 }}
+                transition={{ duration: 0.1 }}
               >
                 View
-              </button>
+              </motion.button>
             </div>
           ),
           { duration: 3000 },
@@ -103,7 +109,7 @@ export const VerseCard = forwardRef<HTMLDivElement, VerseCardProps>(
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -12, transition: { duration: 0.15 } }}
-        transition={{ duration: 0.25, ease: 'easeOut' }}
+        transition={{ duration: 0.25, ease: easing.out }}
         className={`bg-white dark:bg-gray-800 rounded-lg shadow-md p-6
                     hover:shadow-lg transition-shadow duration-200
                     ${isFocused
@@ -113,45 +119,54 @@ export const VerseCard = forwardRef<HTMLDivElement, VerseCardProps>(
         <Link
           to="/read/$book/$chapter"
           params={{ book: bookToSlug(book), chapter: String(chapter) }}
-          className="inline-block"
+          className="inline-block rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
+                     focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900"
         >
           <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3
                         hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
             {reference}
           </h3>
         </Link>
-        <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+        <p className={`text-gray-700 dark:text-gray-300 mb-4 leading-relaxed ${useSerif ? 'font-serif' : ''}`}>
           {text}
         </p>
         <div className="flex justify-end space-x-3">
-          <button
+          <motion.button
             onClick={toggleBookmark}
             aria-label={isBookmarked ? 'Remove bookmark' : 'Add bookmark'}
             className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700
                        transition-colors duration-200 min-w-[44px] min-h-[44px]
-                       flex items-center justify-center"
+                       flex items-center justify-center focus-visible:outline-none
+                       focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2
+                       dark:focus-visible:ring-offset-gray-900"
             title={isBookmarked ? 'Remove bookmark' : 'Add bookmark'}
+            whileTap={{ scale: 0.96 }}
+            transition={{ duration: 0.1 }}
           >
             {isBookmarked ? (
-              <BookmarkCheck className="w-5 h-5 text-blue-500" />
+              <BookmarkCheck className="w-5 h-5 text-amber-500" />
             ) : (
               <Bookmark className="w-5 h-5 text-gray-500 dark:text-gray-400" />
             )}
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             onClick={handleShare}
             aria-label={navigator.share ? 'Share verse' : 'Copy verse'}
             className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700
                        transition-colors duration-200 min-w-[44px] min-h-[44px]
-                       flex items-center justify-center"
+                       flex items-center justify-center focus-visible:outline-none
+                       focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2
+                       dark:focus-visible:ring-offset-gray-900"
             title={navigator.share ? 'Share verse' : 'Copy verse'}
+            whileTap={{ scale: 0.96 }}
+            transition={{ duration: 0.1 }}
           >
             {navigator.share ? (
               <Share2 className="w-5 h-5 text-gray-500 dark:text-gray-400" />
             ) : (
               <Copy className="w-5 h-5 text-gray-500 dark:text-gray-400" />
             )}
-          </button>
+          </motion.button>
         </div>
       </motion.div>
     );

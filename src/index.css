@@ -4,6 +4,7 @@
 
 @theme {
   --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-serif: "Iowan Old Style", "Palatino Linotype", "Georgia", ui-serif, serif;
 }
 
 /* Safe area support for notch devices */
@@ -33,5 +34,12 @@
 
   p, span, li {
     font-size: clamp(0.875rem, 2.5vw, 1rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }

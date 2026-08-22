@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from '@tanstack/react-router';
-import { Bookmark, BookOpen, Info, Command } from 'lucide-react';
+import { Bookmark, BookOpen, Info, Command, Sun, Moon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../hooks/useTheme';
 import { useBookmarkStore } from '../store/bookmarkStore';
@@ -44,25 +44,32 @@ export function Header(): JSX.Element {
           </Link>
 
           <div className="flex items-center space-x-1 sm:space-x-2">
-            <button
+            <motion.button
               onClick={() => setCommandOpen(true)}
               className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg
                          border border-gray-200 dark:border-gray-700
                          text-sm text-gray-500 dark:text-gray-400
-                         hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200"
+                         hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200
+                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
+                         focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900"
               title="Command palette (⌘K)"
               aria-label="Open command palette"
+              whileTap={{ scale: 0.96 }}
+              transition={{ duration: 0.1 }}
             >
               <Command className="w-3.5 h-3.5" />
               <span className="text-xs">⌘K</span>
-            </button>
+            </motion.button>
 
             <Link
               to="/bookmarks"
               className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800
                        relative transition-colors duration-200 min-w-[44px] min-h-[44px]
-                       flex items-center justify-center"
+                       flex items-center justify-center focus-visible:outline-none
+                       focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2
+                       dark:focus-visible:ring-offset-gray-900"
               title="View bookmarks"
+              aria-label="View bookmarks"
             >
               <Bookmark className="w-5 h-5 text-gray-600 dark:text-gray-300" />
               {bookmarks.length > 0 && (
@@ -77,20 +84,31 @@ export function Header(): JSX.Element {
               to="/about"
               className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800
                        transition-colors duration-200 min-w-[44px] min-h-[44px]
-                       flex items-center justify-center"
+                       flex items-center justify-center focus-visible:outline-none
+                       focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2
+                       dark:focus-visible:ring-offset-gray-900"
               title="About"
+              aria-label="About Rhema"
             >
               <Info className="w-5 h-5 text-gray-600 dark:text-gray-300" />
             </Link>
-            <button
+            <motion.button
               onClick={toggleTheme}
               className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800
                        transition-colors duration-200 min-w-[44px] min-h-[44px]
-                       flex items-center justify-center"
+                       flex items-center justify-center text-gray-600 dark:text-gray-300
+                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
+                       focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900"
               title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              role="switch"
+              aria-checked={theme === 'dark'}
+              whileTap={{ scale: 0.96 }}
+              transition={{ duration: 0.1 }}
             >
-              {theme === 'dark' ? '🌞' : '🌙'}
-            </button>
+              <Sun className="w-5 h-5 dark:hidden" />
+              <Moon className="w-5 h-5 hidden dark:block" />
+            </motion.button>
           </div>
         </div>
       </motion.header>

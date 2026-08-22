@@ -116,21 +116,21 @@ export function SearchPage(): JSX.Element {
 
   return (
     <AnimatedPage>
-      <div className="max-w-3xl mx-auto px-4 py-8 pb-24 md:pb-8">
-        <div className="flex flex-col items-center justify-center mb-8">
-          <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-white mt-10 mb-3">
-            KJV Bible Verse Search
+      <div>
+        <section className="text-center py-12 md:py-20">
+          <h2 className="text-2xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-3">
+            Search the KJV Bible
           </h2>
-          <p className="text-center text-gray-600 dark:text-gray-400 max-w-lg mb-8">
-            Search and instantly access any verse from the King James Version Bible
+          <p className="text-gray-500 dark:text-gray-400 mb-8 max-w-md mx-auto">
+            Search by keyword or jump straight to a reference.
           </p>
-          <div className="w-full max-w-2xl">
+          <div className="max-w-xl mx-auto">
             <SearchBar ref={searchBarRef} onSearch={handleSearch} loading={isLoading} />
           </div>
-          <div className="hidden md:flex w-full max-w-2xl justify-end mt-3">
+          <div className="hidden md:flex max-w-xl mx-auto justify-end mt-3">
             <KeyboardHints />
           </div>
-        </div>
+        </section>
 
         <div className="mt-8">
           {showEmptyState && (

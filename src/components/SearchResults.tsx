@@ -2,9 +2,20 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { EmptyState } from './EmptyState';
 import { VerseCard } from './VerseCard';
 import { SkeletonVerseCards } from './SkeletonLoader';
+import { easing } from '../utils/animations';
 import type { SearchResult } from '../types/bible';
 
 const SUGGESTED_SEARCHES = ['John 3:16', 'love', 'faith'];
+
+const containerVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.05 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.25, ease: easing.out } },
+};
 
 interface SearchResultsProps {
   results: SearchResult[];
@@ -44,19 +55,18 @@ export function SearchResults({
   }
 
   return (
-    <div className={`space-y-6 ${className}`}>
+    <motion.div
+      className={`space-y-6 ${className}`}
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
+    >
       <AnimatePresence mode="popLayout">
         {results.map((result, index) => (
           <motion.div
             key={`${result.book}-${result.chapter}-${result.verse}`}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            variants={itemVariants}
             exit={{ opacity: 0, scale: 0.95 }}
-            transition={{
-              duration: 0.25,
-              delay: Math.min(index * 0.04, 0.3),
-              ease: 'easeOut',
-            }}
           >
             <VerseCard
               book={result.book}
@@ -69,6 +79,6 @@ export function SearchResults({
           </motion.div>
         ))}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }
