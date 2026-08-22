@@ -11,7 +11,7 @@ export function Footer(): JSX.Element {
         <div className="flex flex-col items-center text-center">
           <div className="max-w-md mb-8">
             <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
-              About Atom Verse
+              About Rhema
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
               A modern Bible verse search tool for the King James Version,
@@ -22,7 +22,7 @@ export function Footer(): JSX.Element {
           <div className="mb-8">
             <div className="flex justify-center space-x-4">
               <a
-                href="https://github.com/eosdev-x/atom-verse"
+                href="https://rhema.quest"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200 inline-flex items-center"
@@ -37,7 +37,7 @@ export function Footer(): JSX.Element {
             <div className="flex flex-col items-center space-y-4">
               <div className="flex items-center justify-between w-full max-w-xs">
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {currentYear} Atom Verse. All rights reserved.
+                  {currentYear} Rhema. All rights reserved.
                 </p>
                 <KeyboardHints />
               </div>

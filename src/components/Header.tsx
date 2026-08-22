@@ -35,7 +35,7 @@ export function Header(): JSX.Element {
             <BookOpen className="w-8 h-8 text-blue-500" />
             <div>
               <h1 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
-                Atom Verse
+                Rhema
               </h1>
               <p className="text-xs text-gray-500 dark:text-gray-400">
                 KJV Bible Search
