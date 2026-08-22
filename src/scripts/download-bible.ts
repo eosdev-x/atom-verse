@@ -1,7 +1,6 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import axios from 'axios';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,10 +16,28 @@ interface RawBibleVerse {
   text: string;
 }
 
-async function downloadFile(url: string): Promise<any> {
+interface SourceBibleVerse {
+  b: string;
+  c: number;
+  v: number;
+  t?: string;
+}
+
+async function downloadFile(url: string): Promise<SourceBibleVerse[]> {
   console.log('Downloading Bible data from:', url);
-  const response = await axios.get(url);
-  return response.data;
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`Failed to download Bible data: ${response.status}`);
+  }
+
+  const data = (await response.json()) as unknown;
+
+  if (!Array.isArray(data)) {
+    throw new Error('Downloaded Bible data must be an array');
+  }
+
+  return data as SourceBibleVerse[];
 }
 
 async function processBibleData() {
@@ -32,7 +49,7 @@ async function processBibleData() {
     const verses: RawBibleVerse[] = [];
     
     // The structure is an array of verses with book, chapter, verse, and text
-    bibleData.forEach((verse: any) => {
+    bibleData.forEach((verse) => {
       if (verse.t?.trim()) {
         verses.push({
           book: verse.b,

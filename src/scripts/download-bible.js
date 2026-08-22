@@ -1,7 +1,6 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import axios from 'axios';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,8 +11,13 @@ const BIBLE_SOURCE_URL = 'https://raw.githubusercontent.com/scrollmapper/bible_d
 
 async function downloadFile(url) {
   console.log('Downloading Bible data from:', url);
-  const response = await axios.get(url);
-  return response.data;
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`Failed to download Bible data: ${response.status}`);
+  }
+
+  return response.json();
 }
 
 async function processBibleData() {

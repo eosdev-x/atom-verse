@@ -8,10 +8,18 @@ interface Bookmark {
   timestamp: number;
 }
 
+interface RemovedBookmark {
+  bookmark: Bookmark;
+  removedAt: number;
+}
+
 interface BookmarkStore {
   bookmarks: Bookmark[];
+  removedBookmarks: RemovedBookmark[];
   addBookmark: (verse: string, reference: string) => void;
   removeBookmark: (id: string) => void;
+  undoRemove: (id: string) => void;
+  clearExpiredRemovals: () => void;
   searchBookmarks: (query: string) => Bookmark[];
   getRecentBookmarks: (limit?: number) => Bookmark[];
 }
@@ -20,9 +28,9 @@ export const useBookmarkStore = create<BookmarkStore>()(
   persist(
     (set, get) => ({
       bookmarks: [],
+      removedBookmarks: [],
       addBookmark: (verse, reference) =>
         set((state) => {
-          // Check for duplicates
           if (state.bookmarks.some((b) => b.reference === reference)) {
             return state;
           }
@@ -38,9 +46,33 @@ export const useBookmarkStore = create<BookmarkStore>()(
             ],
           };
         }),
-      removeBookmark: (id) =>
+      removeBookmark: (id) => {
+        get().clearExpiredRemovals();
+        set((state) => {
+          const bookmark = state.bookmarks.find((b) => b.id === id);
+          const newRemoved = bookmark
+            ? [{ bookmark, removedAt: Date.now() }, ...state.removedBookmarks].slice(0, 10)
+            : state.removedBookmarks;
+          return {
+            bookmarks: state.bookmarks.filter((b) => b.id !== id),
+            removedBookmarks: newRemoved,
+          };
+        });
+      },
+      undoRemove: (id) =>
+        set((state) => {
+          const removed = state.removedBookmarks.find((r) => r.bookmark.id === id);
+          if (!removed) return state;
+          return {
+            bookmarks: [removed.bookmark, ...state.bookmarks],
+            removedBookmarks: state.removedBookmarks.filter((r) => r.bookmark.id !== id),
+          };
+        }),
+      clearExpiredRemovals: () =>
         set((state) => ({
-          bookmarks: state.bookmarks.filter((bookmark) => bookmark.id !== id),
+          removedBookmarks: state.removedBookmarks.filter(
+            (r) => Date.now() - r.removedAt < 5000
+          ),
         })),
       searchBookmarks: (query: string) => {
         const state = get();

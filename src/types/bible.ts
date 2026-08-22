@@ -1,3 +1,5 @@
+import type { BOOKS_OF_THE_BIBLE } from '../constants/bible';
+
 export type BibleBook = typeof BOOKS_OF_THE_BIBLE[number];
 
 export interface RawVerse {

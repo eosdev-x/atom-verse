@@ -1,153 +1,225 @@
-interface BibleVerse {
+import { useQuery, type UseQueryResult } from '@tanstack/react-query';
+import Fuse, { type FuseOptionKey, type IFuseOptions } from 'fuse.js';
+import { BOOKS_OF_THE_BIBLE } from '../constants/bible';
+import { parseChapterReference } from './bibleReferences';
+
+export interface BibleVerse {
   book: string;
   chapter: number;
   verse: number;
   text: string;
 }
 
+interface BibleBookPayload {
+  verses: BibleVerse[];
+}
+
+interface IndexedBibleVerse extends BibleVerse {
+  reference: string;
+}
+
+const FUSE_SEARCH_OPTIONS = {
+  keys: ['text', 'book', 'reference'],
+  threshold: 0.3,
+  includeScore: true,
+  ignoreLocation: true,
+  minMatchCharLength: 2,
+} satisfies IFuseOptions<IndexedBibleVerse>;
+
+const FUSE_INDEX_KEYS = FUSE_SEARCH_OPTIONS.keys as FuseOptionKey<IndexedBibleVerse>[];
+const FUSE_BUILD_FRAME_BUDGET_MS = 45;
+const BIBLE_QUERY_GC_TIME_MS = 1000 * 60 * 60;
+
 class LocalBibleDB {
-  private cache: Map<string, BibleVerse[]> = new Map();
+  private bookCache = new Map<string, Promise<BibleVerse[]>>();
+
+  private allVersesPromise: Promise<IndexedBibleVerse[]> | null = null;
+
+  private fuseIndex: Fuse<IndexedBibleVerse> | null = null;
 
   async getVerses(book: string): Promise<BibleVerse[]> {
-    // Check cache first
-    if (this.cache.has(book)) {
-      return this.cache.get(book)!;
-    }
+    const canonicalBook = getCanonicalBook(book);
 
-    try {
-      // Load the book's JSON file from the public directory
-      const response = await fetch(`/data/processed/${book.toLowerCase().replace(/\s+/g, '-')}.json`);
-      if (!response.ok) {
-        throw new Error(`Failed to load verses for ${book}`);
-      }
-      
-      const data = await response.json();
-      this.cache.set(book, data.verses);
-      return data.verses;
-    } catch (error) {
-      console.error(`Error loading verses for ${book}:`, error);
+    if (!canonicalBook) {
       return [];
     }
+
+    const cachedBook = this.bookCache.get(canonicalBook);
+
+    if (cachedBook) {
+      return cachedBook;
+    }
+
+    const bookPromise = fetchBookVerses(canonicalBook).catch((error: unknown) => {
+      this.bookCache.delete(canonicalBook);
+      throw error;
+    });
+    this.bookCache.set(canonicalBook, bookPromise);
+    return bookPromise;
   }
 
   async getVerse(book: string, chapter: number, verse: number): Promise<BibleVerse | null> {
     const verses = await this.getVerses(book);
-    return verses.find(v => v.chapter === chapter && v.verse === verse) || null;
+    return verses.find((candidateVerse) => (
+      candidateVerse.chapter === chapter && candidateVerse.verse === verse
+    )) ?? null;
   }
 
-  async searchVerses(query: string): Promise<BibleVerse[]> {
-    const results: BibleVerse[] = [];
-    const normalizedQuery = query.toLowerCase().trim();
-    const searchTerms = normalizedQuery.split(/\s+/);
-    
-    // Check if the query matches a book chapter pattern (e.g., "peter 3")
-    const chapterMatch = normalizedQuery.match(/^(\d?\s*\w+)\s+(\d+)$/i);
-    if (chapterMatch) {
-      const [, bookPart, chapterStr] = chapterMatch;
-      const chapter = parseInt(chapterStr, 10);
-      
-      // Find matching books
-      const matchingBooks = VALID_BOOKS.filter(book => 
-        book.toLowerCase().includes(bookPart.trim().toLowerCase())
-      );
-      
-      // Get verses from matching books and chapters
-      for (const book of matchingBooks) {
-        const verses = await this.getVerses(book);
-        results.push(...verses.filter(v => v.chapter === chapter));
-      }
-      
-      return results;
-    }
-    
-    // Check if the query matches a book name
-    const matchingBooks = VALID_BOOKS.filter(book => 
-      book.toLowerCase().includes(normalizedQuery)
-    );
-    
-    if (matchingBooks.length > 0) {
-      // Return all verses from matching books
-      for (const book of matchingBooks) {
-        const verses = await this.getVerses(book);
-        results.push(...verses);
-      }
-      return results;
-    }
-    
-    // Regular text search if no specific patterns are found
-    const bookPromises = VALID_BOOKS.map(book => this.getVerses(book));
-    const allVerses = (await Promise.all(bookPromises)).flat();
-    
-    // Enhanced text search with multiple strategies
-    return allVerses
-      .map(verse => {
-        const verseText = verse.text.toLowerCase();
-        const score = this.calculateSearchScore(verseText, normalizedQuery, searchTerms);
-        return { verse, score };
-      })
-      .filter(({ score }) => score > 0)
-      .sort((a, b) => b.score - a.score)
-      .map(({ verse }) => verse)
-      .slice(0, 100); // Limit results to prevent overwhelming the UI
+  async getChapterVerses(book: string, chapter: number): Promise<BibleVerse[]> {
+    const verses = await this.getVerses(book);
+    return verses.filter((candidateVerse) => candidateVerse.chapter === chapter);
   }
 
-  private calculateSearchScore(verseText: string, fullQuery: string, terms: string[]): number {
-    let score = 0;
-    
-    // Exact match of the complete query (highest priority)
-    if (verseText.includes(fullQuery)) {
-      score += 100;
+  async getAllVerses(): Promise<IndexedBibleVerse[]> {
+    if (!this.allVersesPromise) {
+      this.allVersesPromise = Promise.all(VALID_BOOKS.map((book) => this.getVerses(book)))
+        .then((books) => books.flat().map(toIndexedVerse));
     }
 
-    // Consecutive terms matching (high priority)
-    let consecutiveMatches = 0;
-    for (let i = 0; i < terms.length - 1; i++) {
-      const term = terms[i];
-      const nextTerm = terms[i + 1];
-      if (verseText.includes(`${term} ${nextTerm}`)) {
-        consecutiveMatches++;
-      }
+    return this.allVersesPromise;
+  }
+
+  async searchVerses(query: string, limit = 100): Promise<BibleVerse[]> {
+    const normalizedQuery = query.trim();
+
+    if (!normalizedQuery) {
+      return [];
     }
-    score += consecutiveMatches * 20;
 
-    // Individual term matching (medium priority)
-    const matchingTerms = terms.filter(term => verseText.includes(term));
-    score += matchingTerms.length * 10;
+    const chapterReference = parseChapterReference(normalizedQuery);
 
-    // Partial word matching (lower priority)
-    const partialMatches = terms.filter(term => 
-      term.length > 3 && // Only consider terms longer than 3 characters
-      !matchingTerms.includes(term) && // Don't double count exact matches
-      verseText.split(/\s+/).some(word => 
-        word.includes(term) || term.includes(word)
-      )
-    );
-    score += partialMatches.length * 5;
+    if (chapterReference) {
+      return this.getChapterVerses(chapterReference.book, chapterReference.chapter);
+    }
 
-    return score;
+    const matchingBook = VALID_BOOKS.find((book) => (
+      book.toLowerCase() === normalizedQuery.toLowerCase()
+    ));
+
+    if (matchingBook) {
+      return this.getVerses(matchingBook);
+    }
+
+    const fuse = await this.getFuseIndex();
+    return fuse.search(normalizedQuery, { limit }).map((result) => result.item);
+  }
+
+  private async getFuseIndex(): Promise<Fuse<IndexedBibleVerse>> {
+    if (!this.fuseIndex) {
+      const allVerses = await this.getAllVerses();
+      this.fuseIndex = await buildFuseIndexInChunks(allVerses);
+    }
+
+    return this.fuseIndex;
   }
 }
 
-// List of valid Bible books in order
-const VALID_BOOKS = [
-  'Genesis', 'Exodus', 'Leviticus', 'Numbers', 'Deuteronomy',
-  'Joshua', 'Judges', 'Ruth', '1 Samuel', '2 Samuel',
-  '1 Kings', '2 Kings', '1 Chronicles', '2 Chronicles',
-  'Ezra', 'Nehemiah', 'Esther', 'Job', 'Psalms',
-  'Proverbs', 'Ecclesiastes', 'Song of Solomon', 'Isaiah',
-  'Jeremiah', 'Lamentations', 'Ezekiel', 'Daniel',
-  'Hosea', 'Joel', 'Amos', 'Obadiah', 'Jonah',
-  'Micah', 'Nahum', 'Habakkuk', 'Zephaniah',
-  'Haggai', 'Zechariah', 'Malachi',
-  'Matthew', 'Mark', 'Luke', 'John',
-  'Acts', 'Romans', '1 Corinthians', '2 Corinthians',
-  'Galatians', 'Ephesians', 'Philippians', 'Colossians',
-  '1 Thessalonians', '2 Thessalonians', '1 Timothy',
-  '2 Timothy', 'Titus', 'Philemon', 'Hebrews',
-  'James', '1 Peter', '2 Peter', '1 John',
-  '2 John', '3 John', 'Jude', 'Revelation'
-];
+export const VALID_BOOKS = [...BOOKS_OF_THE_BIBLE];
+
+export const bibleQueryKeys = {
+  all: ['bible'] as const,
+  book: (book: string) => [...bibleQueryKeys.all, 'book', book] as const,
+  chapter: (book: string, chapter: number) => [...bibleQueryKeys.book(book), 'chapter', chapter] as const,
+  search: (query: string) => [...bibleQueryKeys.all, 'search', query] as const,
+};
 
 export const db = new LocalBibleDB();
-export { VALID_BOOKS };
-export type { BibleVerse };
+
+export function useBookVersesQuery(book: string): UseQueryResult<BibleVerse[], Error> {
+  return useQuery({
+    queryKey: bibleQueryKeys.book(book),
+    queryFn: () => db.getVerses(book),
+    staleTime: Infinity,
+    gcTime: BIBLE_QUERY_GC_TIME_MS,
+  });
+}
+
+export function useChapterVersesQuery(
+  book: string,
+  chapter: number,
+): UseQueryResult<BibleVerse[], Error> {
+  return useQuery({
+    queryKey: bibleQueryKeys.chapter(book, chapter),
+    queryFn: () => db.getChapterVerses(book, chapter),
+    enabled: Boolean(book) && Number.isFinite(chapter),
+    staleTime: Infinity,
+    gcTime: BIBLE_QUERY_GC_TIME_MS,
+  });
+}
+
+export function useBibleSearchQuery(query: string): UseQueryResult<BibleVerse[], Error> {
+  const normalizedQuery = query.trim();
+
+  return useQuery({
+    queryKey: bibleQueryKeys.search(normalizedQuery),
+    queryFn: () => db.searchVerses(normalizedQuery),
+    enabled: normalizedQuery.length > 0,
+    staleTime: 1000 * 60 * 30,
+  });
+}
+
+export function bookToSlug(book: string): string {
+  return book.toLowerCase().replace(/\s+/g, '-');
+}
+
+export function bookFromSlug(slug: string): string | null {
+  const normalizedSlug = slug.toLowerCase();
+  return VALID_BOOKS.find((book) => bookToSlug(book) === normalizedSlug) ?? null;
+}
+
+function getCanonicalBook(book: string): string | null {
+  return VALID_BOOKS.find((candidateBook) => (
+    candidateBook.toLowerCase() === book.toLowerCase()
+  )) ?? bookFromSlug(book);
+}
+
+async function fetchBookVerses(book: string): Promise<BibleVerse[]> {
+  const response = await fetch(`/data/processed/${bookToSlug(book)}.json`);
+
+  if (!response.ok) {
+    throw new Error(`Failed to load verses for ${book}`);
+  }
+
+  const data = (await response.json()) as BibleBookPayload;
+  return data.verses;
+}
+
+function toIndexedVerse(verse: BibleVerse): IndexedBibleVerse {
+  return {
+    ...verse,
+    reference: `${verse.book} ${verse.chapter}:${verse.verse}`,
+  };
+}
+
+async function buildFuseIndexInChunks(
+  allVerses: IndexedBibleVerse[],
+): Promise<Fuse<IndexedBibleVerse>> {
+  const index = Fuse.createIndex<IndexedBibleVerse>(FUSE_INDEX_KEYS, []);
+  let chunkStartedAt = getCurrentTime();
+
+  for (let indexPosition = 0; indexPosition < allVerses.length; indexPosition += 1) {
+    index.add(allVerses[indexPosition], indexPosition);
+
+    if (getCurrentTime() - chunkStartedAt >= FUSE_BUILD_FRAME_BUDGET_MS) {
+      await yieldToEventLoop();
+      chunkStartedAt = getCurrentTime();
+    }
+  }
+
+  return new Fuse(allVerses, FUSE_SEARCH_OPTIONS, index);
+}
+
+function getCurrentTime(): number {
+  return typeof performance === 'undefined' ? Date.now() : performance.now();
+}
+
+function yieldToEventLoop(): Promise<void> {
+  return new Promise((resolve) => {
+    if (typeof requestAnimationFrame === 'function') {
+      requestAnimationFrame(() => resolve());
+      return;
+    }
+
+    setTimeout(resolve, 0);
+  });
+}
