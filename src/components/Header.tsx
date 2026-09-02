@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from '@tanstack/react-router';
-import { Bookmark, BookOpen, Info, Command, Sun, Moon } from 'lucide-react';
+import { Bookmark, BookOpen, Clock3, Info, Command, Sun, Moon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../hooks/useTheme';
 import { useBookmarkStore } from '../store/bookmarkStore';
@@ -83,6 +83,19 @@ export function Header(): JSX.Element {
               <span className="text-xs">⌘K</span>
             </motion.button>
 
+            <Link
+              to="/hours"
+              className="inline-flex items-center gap-2 px-3 min-h-[44px] rounded-lg
+                       text-sm font-semibold text-gray-700 dark:text-gray-200
+                       hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200
+                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
+                       focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900"
+              title="Book of Hours"
+              aria-label="Book of Hours"
+            >
+              <Clock3 className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+              <span className="hidden sm:inline">Hours</span>
+            </Link>
             <Link
               to="/bookmarks"
               className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800
