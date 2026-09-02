@@ -4,6 +4,8 @@ import { AboutPage } from './pages/AboutPage';
 import { BookmarksPage } from './pages/BookmarksPage';
 import { ReaderPage } from './pages/ReaderPage';
 import { SearchPage } from './pages/SearchPage';
+import { HoursIndexPage } from './pages/HoursIndexPage';
+import { HoursOfficePage } from './pages/HoursOfficePage';
 
 const rootRoute = createRootRoute({
   component: AppLayout,
@@ -27,6 +29,18 @@ const bookmarksRoute = createRoute({
   component: BookmarksPage,
 });
 
+const hoursRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/hours',
+  component: HoursIndexPage,
+});
+
+const hoursOfficeRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/hours/$office',
+  component: HoursOfficePage,
+});
+
 const aboutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/about',
@@ -36,6 +50,8 @@ const aboutRoute = createRoute({
 const routeTree = rootRoute.addChildren([
   indexRoute,
   readerRoute,
+  hoursRoute,
+  hoursOfficeRoute,
   bookmarksRoute,
   aboutRoute,
 ]);

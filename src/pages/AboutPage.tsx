@@ -1,7 +1,12 @@
-import { Bookmark, Command, Keyboard, Moon, Search, Smartphone } from 'lucide-react';
+import { Bookmark, Clock3, Command, Keyboard, Moon, Search, Smartphone } from 'lucide-react';
 import { AnimatedPage } from '../components/AnimatedPage';
 
 const features = [
+  {
+    title: 'Book of Hours',
+    description: 'Read eight offices from Isabel Florence Hapgood’s public-domain 1922 Service Book.',
+    icon: Clock3,
+  },
   {
     title: 'Fuzzy Search',
     description: 'Find verses by keyword, phrase, or partial reference with Fuse.js-powered matching.',
@@ -43,12 +48,20 @@ export function AboutPage(): JSX.Element {
         </h2>
         <div className="space-y-4 text-gray-700 dark:text-gray-300 leading-relaxed">
           <p>
-            Rhema is a fast local KJV Bible search app built with React,
+            Rhema is a fast local Bible search and Book of Hours app built with React,
             TypeScript, TanStack Router, TanStack Query, Zustand, and Fuse.js.
           </p>
           <p>
-            Searches run against the bundled Bible JSON data in the browser, and
-            bookmarks stay on the device through localStorage.
+            The King James Version (KJV) is bundled and searches run locally in the browser. The
+            Eastern Orthodox Bible (EOB) is planned, but its text is withheld because it is
+            copyrighted and Rhema does not yet have permission to host it. Bookmarks stay on the
+            device through localStorage.
+          </p>
+          <p>
+            The Hours text comes solely from Isabel Florence Hapgood’s 1922
+            public-domain <cite>Service Book of the Holy Orthodox-Catholic Apostolic Church</cite>.
+            Hapgood did not include the Midnight Office, Little Vespers, or Small Compline, so
+            Rhema does not supply or reconstruct them.
           </p>
         </div>
 

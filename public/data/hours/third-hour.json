@@ -1,0 +1,249 @@
+{
+  "id": "third-hour",
+  "title": "The Third Hour",
+  "description": "Prayer traditionally appointed for the third hour of the day.",
+  "source": {
+    "work": "Service Book of the Holy Orthodox-Catholic Apostolic Church",
+    "translator": "Isabel Florence Hapgood",
+    "year": 1922,
+    "publisher": "Association Press, New York",
+    "license": "Public domain (US)"
+  },
+  "sections": [
+    {
+      "role": "rubric",
+      "text": "After the Priest hath bestowed the blessing, we say :"
+    },
+    {
+      "role": "reader",
+      "text": "Amen. Glory to thee, our God ; glory to thee."
+    },
+    {
+      "role": "reader",
+      "text": "O heavenly King, the Comforter, Spirit of Truth, who art in all places and fillest all things ; Treasury of good things and Giver of life : Come and take up thine abode in us, and cleanse us from every stain ; and save our souls, O Good One."
+    },
+    {
+      "role": "reader",
+      "text": "O Holy God, Holy Mighty, Holy Immortal One, have mercy upon us. ( Thrice % and three reverences.)"
+    },
+    {
+      "role": "reader",
+      "text": "Glory to the Father, and to the Son, and to the Holy Spirit, now, and ever, and unto ages of ages. Amen."
+    },
+    {
+      "role": "reader",
+      "text": "O all-holy Trinity, have mercy upon us. O Lord, wash away our sins. O Master, pardon our transgressions. O Holy One, visit and heal our infirmities, for thy Name's sake."
+    },
+    {
+      "role": "reader",
+      "text": "Lord, have mercy. (Thrice)"
+    },
+    {
+      "role": "reader",
+      "text": "Glory to the Father, and to the Son, and to the Holy Spirit, now, and ever, and unto ages of ages. Amen."
+    },
+    {
+      "role": "reader",
+      "text": "Our Father, who art in heaven, Hallowed be thy Name. Thy kingdom come. Thy will be done on earth, As it is in heaven. Give us this day our daily bread. And forgive us our trespasses, As we forgive those who trespass against us. And lead us not into temptation ; But deliver us from the Evil One:"
+    },
+    {
+      "role": "priest",
+      "text": "For thine is the kingdom, and the power, and the glory, of the Father, and of the Son, and of the Holy Spirit, now, and ever, and unto ages of ages."
+    },
+    {
+      "role": "reader",
+      "text": "Amen."
+    },
+    {
+      "role": "reader",
+      "text": "Lord, have mercy. {Thrice!)"
+    },
+    {
+      "role": "reader",
+      "text": "O come, let us worship God our King. O come, let us worship and fall down before Christ, our King and our God. O come, let us worship and fall down before the Very Christ, our King and our God. ( Three reverences.)"
+    },
+    {
+      "role": "reader",
+      "text": "Hear the right, O Lord, consider my complaint, and hearken unto my prayer, that goeth not out of feigned lips. Let my sentence come forth from thy presence ; and let thine eyes look upon the thing that is equal.",
+      "heading": "Psalm xvii.",
+      "psalm": {
+        "raw": "Psalm xvii.",
+        "number": 17
+      }
+    },
+    {
+      "role": "reader",
+      "text": "Thou hast proved and visited mine heart in the night-season ; thou hast tried me, and shalt find no wickedness in me ; for I am utterly purposed that my mouth shall not offend. Because of men's works that are done against the words of thy lips, I have kept me from the ways of the destroyer. O hold thou up my goings in thy paths, that my footsteps slip not. I have called upon thee, O God, for thou shalt hear me : incline thine ear to me, and hearken unto my words. Show thy marvellous loving-kindness, thou that art the Saviour of them which put their trust in thee, from such as resist thy right hand. Keep me as the apple of an eye ; hide me under the shadow of thy wings, from the ungodly, that trouble me ; mine enemies compass me round about, to take away my soul. They are inclosed in their own fat, and their mouth speaketh proud things. They lie waiting in our way on every side, turning their eyes down to the ground ; like as a lion that is greedy of his prey, and as it were a lion's whelp lurking in secret places. Up, Lord, disappoint him, and cast him down ; deliver my soul from the ungodly, which is a sword of thine ; from the men of thy hand, O Lord, from the men, I say, and from the evil world ; which have their portion in this life, whose bellies thou fillest with thy hid treasure. They have children at their desire, and leave the rest of their substance for their babes. But as for me, I will behold thy presence in righteousness ; and when I awake up after thy likeness, I shall be satisfied with it."
+    },
+    {
+      "role": "reader",
+      "text": "Unto thee, O Lord, will I lift up my soul ; my God, I have put my trust in thee : O let me not be confounded, neither let mine enemies triumph over me. For all they that hope in thee shall not be ashamed ; but such as transgress without a cause shall be put to confusion. Show me thy ways, O Lord, and teach me thy paths. Lead me forth in thy truth, and learn me : for thou art the God of my salvation ; in thee hath been my hope all the day long. Call to remembrance, O Lord, thy tender mercies, and thy loving-kindnesses, which have been ever of old. O remember not the sins and offences of my youth ; but according to thy mercy think thou upon me, O Lord, for thy goodness. Gracious and righteous is the Lord ; therefore will he teach sinners in the way. Them that are meek shall he guide in judgment ; and such as are gentle, them shall he learn his way. All the paths of the Lord are mercy and truth, unto such as keep his covenant, and his testimonies. For thy Name's sake, O Lord, be merciful unto my sin ; for it is great. What man is he that feareth the Lord ? him shall he teach in the way that he shall choose His soul shall dwell at ease, and his seed shall inherit the land. The secret of the Lord is among them that fear him ; and he will show them his covenant. Mine eyes are ever looking unto the Lord ; for he shall pluck my feet out of the net. Turn thee unto me, and have mercy upon me ; for I am desolate, and in misery. The sorrows of my heart are enlarged : O bring thou me out of my troubles. Look upon my adversity and misery, and forgive me all my sin. Consider mine enemies, how many they are ; and they bear a tyrannous hate against me. O keep my soul, and deliver me : let me not be confounded, for I have put my trust in thee. Let perfectness and righteous dealing wait upon me ; for my hope hath been in thee. Deliver Israel, O God, out of all his troubles.",
+      "heading": "Psalm xxv.",
+      "psalm": {
+        "raw": "Psalm xxv.",
+        "number": 25
+      }
+    },
+    {
+      "role": "reader",
+      "text": "Have mercy upon me, O God, after thy great goodness ; according to the multitude of thy mercies do away mine offences. Wash me throughly from my .wickedness, and cleanse me from my sin. For I acknowledge my faults, and my sin is ever before me. Against thee only have I sinned, and done this evil in thy sight ; that thou mightest be justified in thy saying, and clear when thou art judged. Behold, I was shapen in wickedness, and in sin hath my mother conceived me. But lo, thou requires! truth in the inward parts, and shalt make me to understand wisdom secretly. Thou shalt purge me with hyssop, and I shall be clean ; thou shalt wash me, and I shall be whiter than snow. Thou shalt make me hear of joy and gladness, that the bones which thou hast broken may rejoice. Turn thy face from my sins, and put out all my misdeeds. Make me a clean heart, O.God, and renew a right spirit within me. Cast me not away from thy presence, and take not thy Holy Spirit from me. O give me the comfort of thy help again, and stablish me with thy free Spirit. Then shall I teach thy ways unto the wicked, and sinners shall be converted unto thee. Deliver me from blood-guiltiness, O God, thou that art the God of my health ; and my tongue shall sing of thy righteousness. Thou shalt open my lips, O Lord, and my mouth shall show thy praise. For thou desirest no sacrifice, else would I give it thee ; but thou delightest not in burnt-offerings. The sacrifice of God is a troubled spirit : a broken and contrite heart, O God, shalt thou not despise. O be favourable and gracious unto Sion ; build thou the walls of Jerusalem. Then shalt thou be pleased with the sacrifice of righteousness, with the burnt-offerings and oblations ; then shall they offer young bullocks upon thine altar.",
+      "heading": "Psalm li.",
+      "psalm": {
+        "raw": "Psalm li.",
+        "number": 51
+      }
+    },
+    {
+      "role": "reader",
+      "text": "Glory to the Father, and to the Son; and to the Holy Spirit, now, and ever, and unto ages of ages. Amen."
+    },
+    {
+      "role": "reader",
+      "text": "Alleluia, alleluia, alleluia. Glory to thee, O Lord. {Thrice.)"
+    },
+    {
+      "role": "reader",
+      "text": "Lord, have mercy. {Thrice.)"
+    },
+    {
+      "role": "reader",
+      "text": "Glory to the Father, and to the Son, and to the Holy Spirit."
+    },
+    {
+      "role": "rubric",
+      "text": "Then the Hymn for the Day (Tropdr) : • Now, and ever, and unto ages of ages. Amen."
+    },
+    {
+      "role": "reader",
+      "text": "Hymn to the Birth-Giver of God (Bogorbditchen). O Birth-giver of God, thou art the true Vine who didst bud forth the Fruit of Life : Implore thou him, we beseech thee, O Lady, together witji the Apostles and all the Saints, that he will have mercy on our souls."
+    },
+    {
+      "role": "reader",
+      "text": "Butif it be the Great Fast (Lent), then this Hymn (Tropdr\\in Tone VI, is said: O Lord, who at the Third Hour didst send down upon thine Apostles thy Holy Spirit : Take not the same from us, O Good One, but renew it in us who make our supplications unto thee Verse {Stikk) 1 : Make me a clean heart, O God, and renew a right spirit within me."
+    },
+    {
+      "role": "reader",
+      "text": "Verse 2 : Cast me not away from thy presence, and take not thy Holy Spirit from me."
+    },
+    {
+      "role": "reader",
+      "text": "And to these we add; O Lord, who at the Third Hour; and the rest of the Hymn again, to the end, making one reverence for each."
+    },
+    {
+      "role": "reader",
+      "text": "Glory to the Father, and to the Son, and to the Holy Spirit, now, and ever, and unto ages of ages. Amen."
+    },
+    {
+      "role": "reader",
+      "text": "And again the Hymn to the Birth-giver of God (BogorJditchen) : O Birth-giver of God, thou art the true Vine. . . ."
+    },
+    {
+      "role": "reader",
+      "text": "Praised be God, praised be God daily, even the God who helpeth us and poureth his benefits upon us. He is our God, even the God of our salvation."
+    },
+    {
+      "role": "reader",
+      "text": "O Holy God, Holy Mighty, . . . O all-holy Trinity, . . ."
+    },
+    {
+      "role": "reader",
+      "text": "Lord, have mercy. (7/irice.)"
+    },
+    {
+      "role": "rubric",
+      "text": "Then (as at the beginning of the Hour) ;"
+    },
+    {
+      "role": "reader",
+      "text": "Glory . . . now, and ever. . . . Our Father, who art in heaven . . ."
+    },
+    {
+      "role": "rubric",
+      "text": "Then the Collect-Hymn (Konddk) of the Day, or of the Saint.* But if it be a Fast, we say the following Hymns (Tropari\\ in Tone VIII ;"
+    },
+    {
+      "role": "reader",
+      "text": "Blessed art thou, O Christ our God, who hast revealed fishers most wise, sending down upon them the Holy Spirit, and thereby catching the universe as in a net. O Christ our God, who lovest mankind, glory to thee."
+    },
+    {
+      "role": "reader",
+      "text": "Glory to the Father, and to the Son, and to the Holy Spirit."
+    },
+    {
+      "role": "reader",
+      "text": "Grant speedy and steadfast consolation unto thy servants, O Jesus, when our spirit is cast down within us. Depart not from our souls in affliction; be not far from our thoughts in time of trouble ; but always defend us. Draw near unto us, draw near unto us, thou who art omnipresent! As thou art ever with thine Apostles, so, also, O Bountiful One, unite thyself unto those who long for thee ; that with one accord we may sing praises unto thee, and laud thy most holy Spirit."
+    },
+    {
+      "role": "reader",
+      "text": "Now, and ever, and unto ages of ages. Amen."
+    },
+    {
+      "role": "reader",
+      "text": "Special Services."
+    },
+    {
+      "role": "reader",
+      "text": "The Hope and Chieftain, and Wall Impregnable of Christians art thou, and the Haven unvexed by storms, O pure Birth-giver of God ; but in that thou dost save the world by thine unceasing intercessions, call thou us also to remembrance, O Virgin, all-lauded."
+    },
+    {
+      "role": "reader",
+      "text": "Lord, have mercy. {Forty times.)"
+    },
+    {
+      "role": "reader",
+      "text": "Thou who, at all times, and at every hour, both in heaven and on earth art worshipped and glorified, O Christ our God, long-suffering, plenteous in mercy and compassion ; who lovest the just and showest mercy to those who are hardened in sin ; who callest all men to salvation through the promise of good things to come : Do thou, the same Lord, receive also our supplications at this present time, and direct our lives according to thy commandments ; sanctify our souls; purify our bodies ; set aright our minds ; and deliver us from all calamity, wrath and distress. Compass us round about with thy holy Angels ; that, guided and guarded by their host, we may attain unto the unity of the faith, and unto the comprehension of thine ineffable glory. For blessed art thou unto ages of ages. Amen."
+    },
+    {
+      "role": "reader",
+      "text": "Lord, have mercy. {Thrice.)"
+    },
+    {
+      "role": "reader",
+      "text": "Glory to the Father, and to the Son, and to the Holy Spirit, now, and ever, and unto ages of ages. Amen."
+    },
+    {
+      "role": "reader",
+      "text": "More honourable than the Cherubim, and more glorious beyond compare than the Seraphim, thou who without defilement barest God the Word, true Birth-giver of God, we magnify thee."
+    },
+    {
+      "role": "reader",
+      "text": "In the Name of the Lord bless, Father."
+    },
+    {
+      "role": "priest",
+      "text": "Through the prayers of our Holy Fathers, O Lord Jesus Christ, our God, have mercy upon us."
+    },
+    {
+      "role": "rubric",
+      "text": "And if it be the Great Fast (Lent), we make three great reverences ■, reciting the prescribed"
+    },
+    {
+      "role": "reader",
+      "text": "Prayer of St. Ephraim the Syrian."
+    },
+    {
+      "role": "reader",
+      "text": "O Lord and Master of my life, grant not unto me a spirit of slothfulness, of discouragement, of lust of power, of vain babbling. {Reverence.)"
+    },
+    {
+      "role": "reader",
+      "text": "But vouchsafe unto thy servant the spirit of continence, of meekness, of patience, and of love. {Reverence,)"
+    },
+    {
+      "role": "reader",
+      "text": "Yea, O Lord and King, grant that I may perceive my own transgressions, and judge not my brother. For blessed art thou unto ages of ages. Amen. {Reverence. Then twelve lesser reverences, saying at each: O God, cleanse thou me, a sinner. Then the whole Prayer is repeated; with one great reverence in conclusion^)"
+    },
+    {
+      "role": "rubric",
+      "text": "And when we have finished the reverences, we say this"
+    },
+    {
+      "role": "reader",
+      "text": "Prayer of St. Mardarius."
+    },
+    {
+      "role": "reader",
+      "text": "O Lord God, Father almighty, O Lord the Only-begotten Son, Jesus Christ, and O Holy Spirit, one Godhead, one Power, have mercy upon me, a sinner. And by the judgments which thou hast established, save me, thine unworthy servant. For blessed art thou unto ages of ages. Amen."
+    }
+  ]
+}

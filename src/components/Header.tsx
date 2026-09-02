@@ -6,12 +6,16 @@ import { useTheme } from '../hooks/useTheme';
 import { useBookmarkStore } from '../store/bookmarkStore';
 import { useScrollDirection } from '../hooks/useScrollDirection';
 import { CommandPalette } from './CommandPalette';
+import { TRANSLATIONS, type TranslationId } from '../constants/translations';
+import { useTranslationStore } from '../store/translationStore';
 
 export function Header(): JSX.Element {
   const { theme, toggleTheme } = useTheme();
   const { bookmarks } = useBookmarkStore();
   const { direction, isAtTop } = useScrollDirection();
   const [commandOpen, setCommandOpen] = useState(false);
+  const translationId = useTranslationStore((state) => state.translationId);
+  const setTranslation = useTranslationStore((state) => state.setTranslation);
 
   const isHidden = direction === 'down' && !isAtTop;
 
@@ -38,12 +42,30 @@ export function Header(): JSX.Element {
                 Rhema
               </h1>
               <p className="text-xs text-gray-500 dark:text-gray-400">
-                KJV Bible Search
+                Bible Search &amp; Hours
               </p>
             </div>
           </Link>
 
           <div className="flex items-center space-x-1 sm:space-x-2">
+            <label className="sr-only" htmlFor="translation-select">Bible translation</label>
+            <select
+              id="translation-select"
+              value={translationId}
+              onChange={(event) => setTranslation(event.target.value as TranslationId)}
+              className="min-h-[44px] rounded-lg border border-gray-200 dark:border-gray-700
+                         bg-white dark:bg-gray-800 px-2 text-xs font-semibold
+                         text-gray-700 dark:text-gray-200 focus-visible:outline-none
+                         focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2
+                         dark:focus-visible:ring-offset-gray-900"
+              aria-label="Bible translation"
+            >
+              {TRANSLATIONS.map((translation) => (
+                <option key={translation.id} value={translation.id}>
+                  {translation.label}{translation.available ? '' : ' — unavailable'}
+                </option>
+              ))}
+            </select>
             <motion.button
               onClick={() => setCommandOpen(true)}
               className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg

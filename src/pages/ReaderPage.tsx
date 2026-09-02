@@ -5,6 +5,8 @@ import { AnimatedPage } from '../components/AnimatedPage';
 import { BOOKS_OF_THE_BIBLE } from '../constants/bible';
 import { bookFromSlug, bookToSlug, useChapterVersesQuery } from '../utils/db';
 import { easing } from '../utils/animations';
+import { useTranslationStore } from '../store/translationStore';
+import { TranslationUnavailable } from '../components/TranslationUnavailable';
 
 const CHAPTER_COUNTS: Record<string, number> = {
   Genesis: 50,
@@ -83,9 +85,10 @@ interface ChapterTarget {
 export function ReaderPage(): JSX.Element {
   const { book: bookSlug, chapter: chapterParam } = useParams({ from: '/read/$book/$chapter' });
   const navigate = useNavigate();
+  const translationId = useTranslationStore((state) => state.translationId);
   const book = bookFromSlug(bookSlug);
   const chapter = Number.parseInt(chapterParam, 10);
-  const chapterQuery = useChapterVersesQuery(book ?? '', chapter);
+  const chapterQuery = useChapterVersesQuery(translationId, book ?? '', chapter);
   const verses = chapterQuery.data ?? [];
   const previousChapter = book ? getAdjacentChapter(book, chapter, 'previous') : null;
   const nextChapter = book ? getAdjacentChapter(book, chapter, 'next') : null;
@@ -103,6 +106,14 @@ export function ReaderPage(): JSX.Element {
     return (
       <AnimatedPage>
         <PageMessage title="Chapter not found" message="The requested Bible chapter could not be matched." />
+      </AnimatedPage>
+    );
+  }
+
+  if (translationId === 'eob') {
+    return (
+      <AnimatedPage>
+        <TranslationUnavailable />
       </AnimatedPage>
     );
   }

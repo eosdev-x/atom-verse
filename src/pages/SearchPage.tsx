@@ -11,6 +11,8 @@ import { useNavigate } from '@tanstack/react-router';
 import { bookToSlug } from '../utils/db';
 import { useBookmarkStore } from '../store/bookmarkStore';
 import toast from 'react-hot-toast';
+import { useTranslationStore } from '../store/translationStore';
+import { TranslationUnavailable } from '../components/TranslationUnavailable';
 
 const POPULAR_SEARCHES = [
   'John 3:16',
@@ -42,7 +44,8 @@ function getVerseOfTheDay(): typeof VERSE_OF_THE_DAY[number] {
 export function SearchPage(): JSX.Element {
   const [searchQuery, setSearchQuery] = useState('');
   const [focusedIndex, setFocusedIndex] = useState(-1);
-  const { data: results = [], isLoading } = useBibleSearch(searchQuery);
+  const translationId = useTranslationStore((state) => state.translationId);
+  const { data: results = [], isLoading } = useBibleSearch(searchQuery, translationId);
   const searchBarRef = useRef<SearchBarHandle>(null);
   const navigate = useNavigate();
   const bookmarks = useBookmarkStore((state) => state.bookmarks);
@@ -86,8 +89,6 @@ export function SearchPage(): JSX.Element {
     toast.success('Verse bookmarked');
   }, [addBookmark, bookmarks, focusedIndex, removeBookmark, results]);
 
-  const verseOfTheDay = getVerseOfTheDay();
-
   useKeyboardShortcuts({
     onFocusSearch: () => searchBarRef.current?.focus(),
     onNavigateDown: () => {
@@ -112,6 +113,15 @@ export function SearchPage(): JSX.Element {
     },
   });
 
+  if (translationId === 'eob') {
+    return (
+      <AnimatedPage>
+        <TranslationUnavailable />
+      </AnimatedPage>
+    );
+  }
+
+  const verseOfTheDay = getVerseOfTheDay();
   const showEmptyState = !searchQuery && !isLoading;
 
   return (

@@ -3,14 +3,16 @@
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-A fast, modern KJV Bible verse search app.
+A fast, modern Bible verse search and public-domain Book of Hours app.
 
 **Live:** [rhema.quest](https://rhema.quest)
 
 ## Features
 
 - 🔍 Fuzzy search by keyword or exact reference (e.g., "John 3:16")
+- 🔤 Translation switcher with bundled KJV and an honest EOB availability notice
 - 📖 Chapter reader with verse-by-verse display
+- 🕰️ Eight offices from Isabel Florence Hapgood’s public-domain 1922 Service Book
 - 🔖 Bookmarks with local persistence
 - ⌨️ Keyboard shortcuts (`/` search, `j/k` navigate, `b` bookmark, `⌘K` command palette)
 - 🌙 Dark/light theme

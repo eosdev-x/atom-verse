@@ -2,6 +2,7 @@ import { useQuery, type UseQueryResult } from '@tanstack/react-query';
 import Fuse, { type FuseOptionKey, type IFuseOptions } from 'fuse.js';
 import { BOOKS_OF_THE_BIBLE } from '../constants/bible';
 import { parseChapterReference } from './bibleReferences';
+import type { TranslationId } from '../constants/translations';
 
 export interface BibleVerse {
   book: string;
@@ -117,43 +118,57 @@ class LocalBibleDB {
 export const VALID_BOOKS = [...BOOKS_OF_THE_BIBLE];
 
 export const bibleQueryKeys = {
-  all: ['bible'] as const,
-  book: (book: string) => [...bibleQueryKeys.all, 'book', book] as const,
-  chapter: (book: string, chapter: number) => [...bibleQueryKeys.book(book), 'chapter', chapter] as const,
-  search: (query: string) => [...bibleQueryKeys.all, 'search', query] as const,
+  all: (translationId: TranslationId) => ['bible', translationId] as const,
+  book: (translationId: TranslationId, book: string) => (
+    [...bibleQueryKeys.all(translationId), 'book', book] as const
+  ),
+  chapter: (translationId: TranslationId, book: string, chapter: number) => (
+    [...bibleQueryKeys.book(translationId, book), 'chapter', chapter] as const
+  ),
+  search: (translationId: TranslationId, query: string) => (
+    [...bibleQueryKeys.all(translationId), 'search', query] as const
+  ),
 };
 
 export const db = new LocalBibleDB();
 
-export function useBookVersesQuery(book: string): UseQueryResult<BibleVerse[], Error> {
+export function useBookVersesQuery(
+  translationId: TranslationId,
+  book: string,
+): UseQueryResult<BibleVerse[], Error> {
   return useQuery({
-    queryKey: bibleQueryKeys.book(book),
+    queryKey: bibleQueryKeys.book(translationId, book),
     queryFn: () => db.getVerses(book),
+    enabled: translationId === 'kjv',
     staleTime: Infinity,
     gcTime: BIBLE_QUERY_GC_TIME_MS,
   });
 }
 
 export function useChapterVersesQuery(
+  translationId: TranslationId,
   book: string,
   chapter: number,
 ): UseQueryResult<BibleVerse[], Error> {
   return useQuery({
-    queryKey: bibleQueryKeys.chapter(book, chapter),
+    queryKey: bibleQueryKeys.chapter(translationId, book, chapter),
     queryFn: () => db.getChapterVerses(book, chapter),
-    enabled: Boolean(book) && Number.isFinite(chapter),
+    enabled: translationId === 'kjv' && Boolean(book) && Number.isFinite(chapter),
     staleTime: Infinity,
     gcTime: BIBLE_QUERY_GC_TIME_MS,
   });
 }
 
-export function useBibleSearchQuery(query: string): UseQueryResult<BibleVerse[], Error> {
+export function useBibleSearchQuery(
+  translationId: TranslationId,
+  query: string,
+): UseQueryResult<BibleVerse[], Error> {
   const normalizedQuery = query.trim();
 
   return useQuery({
-    queryKey: bibleQueryKeys.search(normalizedQuery),
+    queryKey: bibleQueryKeys.search(translationId, normalizedQuery),
     queryFn: () => db.searchVerses(normalizedQuery),
-    enabled: normalizedQuery.length > 0,
+    enabled: translationId === 'kjv' && normalizedQuery.length > 0,
     staleTime: 1000 * 60 * 30,
   });
 }
