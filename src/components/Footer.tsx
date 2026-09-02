@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router';
 import { ExternalLink, Heart } from 'lucide-react';
 import { KeyboardHints } from './KeyboardHints';
 
@@ -21,6 +22,12 @@ export function Footer(): JSX.Element {
 
           <div className="mb-8">
             <div className="flex justify-center space-x-4">
+              <Link
+                to="/hours"
+                className="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200"
+              >
+                Book of Hours
+              </Link>
               <a
                 href="https://rhema.quest"
                 target="_blank"

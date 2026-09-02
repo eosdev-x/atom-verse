@@ -7,7 +7,7 @@ import { KeyboardHints } from '../components/KeyboardHints';
 import { useBibleSearch } from '../hooks/useBibleSearch';
 import { useDebounce } from '../hooks/useDebounce';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
-import { useNavigate } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { bookToSlug } from '../utils/db';
 import { useBookmarkStore } from '../store/bookmarkStore';
 import toast from 'react-hot-toast';
@@ -131,8 +131,19 @@ export function SearchPage(): JSX.Element {
           <h2 className="text-2xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-3">
             Search the KJV Bible
           </h2>
-          <p className="text-gray-500 dark:text-gray-400 mb-8 max-w-md mx-auto">
+          <p className="text-gray-500 dark:text-gray-400 mb-4 max-w-md mx-auto">
             Search by keyword or jump straight to a reference.
+          </p>
+          <p className="mb-8">
+            <Link
+              to="/hours"
+              className="inline-flex items-center min-h-[44px] text-sm font-semibold
+                         text-blue-600 dark:text-blue-400 hover:underline
+                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500
+                         rounded-md px-1"
+            >
+              Open the Book of Hours
+            </Link>
           </p>
           <div className="max-w-xl mx-auto">
             <SearchBar ref={searchBarRef} onSearch={handleSearch} loading={isLoading} />
