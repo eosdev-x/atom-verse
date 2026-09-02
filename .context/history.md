@@ -39,3 +39,10 @@
 **Build:** ✅ `npm run build` (Vite 6 production build; existing >500 kB chunk advisory only)
 **Smoke:** ✅ HTTP 200 for `/`, `/hours`, `/hours/first-hour`, Hours JSON, and bundled KJV JSON
 **Review:** Self-audit found no secrets, EOB corpus, modern Horologion text, invalid Psalm links, or generated/index mismatch. Uncertain OCR glyphs and source column-order artifacts were preserved rather than guessed.
+
+## [2026-09-01] Sonic verify — EOB switcher + Hapgood Hours
+**Agent:** Sonic 🦔
+**Branch:** `andy/eob-horologion` @ `dbaae6b`
+**Changes:** Re-ran lint/test/build after Tails. Confirmed no EOB verse files. Hours JSON present for all eight offices. Search/reader gate EOB with empty state; queries `enabled` only for `kjv`.
+**Verification:** lint ✅ | test ✅ 19/19 | build ✅ (existing >500 kB chunk advisory)
+**Not done:** no push, no deploy to rhema.quest. OCR artifacts remain in Hapgood JSON (e.g. Trop&r, Bogorbditehcri).
