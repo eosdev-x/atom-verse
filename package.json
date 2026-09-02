@@ -11,6 +11,7 @@
     "build": "tsc && vite build",
     "lint": "eslint .",
     "test": "vitest run",
+    "hours:build": "node data/process-hapgood.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -2,12 +2,15 @@ import { useQuery, type UseQueryResult } from '@tanstack/react-query';
 import { bibleQueryKeys, db, type BibleVerse } from '../utils/db';
 import type { CrossReference, SearchResult } from '../types/bible';
 import { parseReference } from '../utils/bibleReferences';
+import type { TranslationId } from '../constants/translations';
 
 export { bibleQueryKeys };
 
 export const bibleServiceQueryKeys = {
   all: ['bibleService'] as const,
-  search: (query: string) => bibleQueryKeys.search(query),
+  search: (translationId: TranslationId, query: string) => (
+    bibleQueryKeys.search(translationId, query)
+  ),
   crossReferences: (reference: string) => (
     [...bibleServiceQueryKeys.all, 'crossReferences', reference] as const
   ),
@@ -43,13 +46,16 @@ export const bibleService = {
   },
 };
 
-export function useSearchVersesQuery(query: string): UseQueryResult<SearchResult[], Error> {
+export function useSearchVersesQuery(
+  translationId: TranslationId,
+  query: string,
+): UseQueryResult<SearchResult[], Error> {
   const normalizedQuery = query.trim();
 
   return useQuery({
-    queryKey: bibleServiceQueryKeys.search(normalizedQuery),
+    queryKey: bibleServiceQueryKeys.search(translationId, normalizedQuery),
     queryFn: () => bibleService.searchVerses(normalizedQuery),
-    enabled: normalizedQuery.length > 0,
+    enabled: translationId === 'kjv' && normalizedQuery.length > 0,
     staleTime: 1000 * 60 * 30,
   });
 }

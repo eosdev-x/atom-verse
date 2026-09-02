@@ -1,0 +1,53 @@
+{
+  "title": "Book of Hours",
+  "description": "Eight daily offices from Isabel Florence Hapgood’s 1922 public-domain Service Book.",
+  "source": {
+    "work": "Service Book of the Holy Orthodox-Catholic Apostolic Church",
+    "translator": "Isabel Florence Hapgood",
+    "year": 1922,
+    "publisher": "Association Press, New York",
+    "license": "Public domain (US)"
+  },
+  "offices": [
+    {
+      "id": "great-vespers",
+      "title": "Great Vespers",
+      "description": "The evening office from Hapgood’s order for the All-Night Vigil."
+    },
+    {
+      "id": "matins",
+      "title": "Matins",
+      "description": "The morning office, including its psalmody, litanies, and dismissal."
+    },
+    {
+      "id": "first-hour",
+      "title": "The First Hour",
+      "description": "Prayer traditionally appointed near the beginning of the day."
+    },
+    {
+      "id": "third-hour",
+      "title": "The Third Hour",
+      "description": "Prayer traditionally appointed for the third hour of the day."
+    },
+    {
+      "id": "sixth-hour",
+      "title": "The Sixth Hour",
+      "description": "Prayer traditionally appointed for the sixth hour of the day."
+    },
+    {
+      "id": "ninth-hour",
+      "title": "The Ninth Hour",
+      "description": "Prayer traditionally appointed for the ninth hour of the day."
+    },
+    {
+      "id": "typica",
+      "title": "The Typical Psalms",
+      "description": "The psalms, Beatitudes, and prayers of the Typica."
+    },
+    {
+      "id": "grand-compline",
+      "title": "Grand Compline",
+      "description": "Hapgood’s office of Grand Compline for appointed vigils and fasts."
+    }
+  ]
+}

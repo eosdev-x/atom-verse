@@ -1,5 +1,5 @@
 import { Link, useMatchRoute } from '@tanstack/react-router';
-import { Search, BookOpen, Bookmark, Info } from 'lucide-react';
+import { Search, BookOpen, Bookmark, Clock3, Info } from 'lucide-react';
 
 interface NavItem {
   label: string;
@@ -10,6 +10,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { label: 'Search', to: '/', icon: Search },
   { label: 'Reader', to: '/read/genesis/1', icon: BookOpen },
+  { label: 'Hours', to: '/hours', icon: Clock3 },
   { label: 'Bookmarks', to: '/bookmarks', icon: Bookmark },
   { label: 'About', to: '/about', icon: Info },
 ];

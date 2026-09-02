@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useState } from 'react';
 import { Command } from 'cmdk';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, BookOpen, Bookmark, Sun, Moon, ArrowRight } from 'lucide-react';
+import { Search, BookOpen, Bookmark, Sun, Moon, ArrowRight, Clock3 } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
 import { BOOKS_OF_THE_BIBLE } from '../constants/bible';
 import { useBookmarkStore } from '../store/bookmarkStore';
@@ -174,6 +174,18 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps): JSX
                         <Moon className="w-4 h-4 text-gray-400 dark:text-gray-500 shrink-0" />
                       )}
                       <span>Toggle {theme === 'dark' ? 'Light' : 'Dark'} Mode</span>
+                    </Command.Item>
+                    <Command.Item
+                      value="go to hours horologion book of hours"
+                      onSelect={() => handleSelect(() => navigate({ to: '/hours' }))}
+                      className="flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer
+                                 text-sm text-gray-700 dark:text-gray-300
+                                 data-[selected=true]:bg-blue-50 dark:data-[selected=true]:bg-blue-900/30
+                                 data-[selected=true]:text-blue-700 dark:data-[selected=true]:text-blue-300"
+                    >
+                      <Clock3 className="w-4 h-4 text-gray-400 dark:text-gray-500 shrink-0" />
+                      <span>Open Book of Hours</span>
+                      <ArrowRight className="w-3 h-3 ml-auto text-gray-300 dark:text-gray-600" />
                     </Command.Item>
                     <Command.Item
                       value="go to bookmarks"

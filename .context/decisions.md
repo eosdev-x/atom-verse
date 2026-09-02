@@ -26,3 +26,17 @@
 **Decision:** TanStack Router — type-safe, file-based routing, no framework lock-in.
 **Alternatives considered:** React Router v7 (heavier, less type-safe), wouter (too minimal for this scope).
 **Status:** Active
+
+## [2026-09-01] EOB text held; translation switcher now
+**By:** Sonic 🦔
+**Context:** Tux asked to add the Eastern Orthodox Bible (EOB) to Rhema. EOB is All Rights Reserved (Lulu standard copyright; official store at easternorthodoxbible.org sells printed editions). Circulating PDFs are not a redistribution license. Rhema is a static MIT Cloudflare Pages app; we will not host copyrighted Bible text.
+**Decision:** Build a translation switcher (KJV live, EOB listed but unavailable) and keep KJV as the only bundled corpus. Do not fetch, convert, or ship EOB verses until Tux provides written permission or licensed files. Do not label any public-domain stand-in as EOB.
+**Alternatives considered:** Host EOB from circulating PDFs (rejected — infringement); Brenton LXX + PD NT branded as Orthodox canon (rejected this pass — Tux chose hold-EOB); link-only to official site (partial, still build switcher).
+**Status:** Active
+
+## [2026-09-01] Horologion from Hapgood 1922
+**By:** Sonic 🦔
+**Context:** Tux asked for Horologion / Book of Hours. Modern English Horologia (Holy Transfiguration Monastery, Holy Trinity / Lawrence Campbell, St. Tikhon's, AGES/GOARCH Digital Chant Stand) are copyrighted. Hapgood 1922 Service Book is US public domain and contains Great Vespers, Matins, Hours 1/3/6/9, Typical Psalms, and Grand Compline. Hapgood omitted Midnight Office, Little Vespers, and Small Compline.
+**Decision:** Host Hapgood 1922 Hours on Rhema as a new Hours section. OCR source lives in `data/sources/hapgood/`. Clean OCR for display; never invent missing liturgical text. Attribute Hapgood 1922 on Hours and About pages. Do not scrape AGES/GOARCH or mix in later copyrighted translations.
+**Alternatives considered:** Link out to Digital Chant Stand only; scaffold empty Hours pages; host Unabbreviated Horologion (copyrighted — rejected).
+**Status:** Active
